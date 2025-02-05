@@ -1,0 +1,50 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+
+void dfs(vector<vector<int>>&grid, int r,int c,int clr, int og){
+    
+    if(r<0||r>=grid.size() || c<0||c>=image[0].size() || grid[r][c]!=og){
+        return;
+    }
+    
+    grid[r][c]=clr;
+    
+    dfs(grid,r-1,c,og,clr);
+    dfs(grid,r+1,c,og,clr);
+    dfs(grid,r,c+1,og,clr);
+    dfs(grid,r,c-1,og,clr);
+}
+
+vector<vector<int>>&floodfill(<vectot<vector<int>>& grid,int sr, int sc, int clr){
+    
+    int og=grid[sr][sc];
+    if(og==clr){
+        return grid;
+    }
+    
+    dfs(grid,sr,sc,og,clr);
+    
+    return grid;
+}
+
+
+int main() {
+     vector<vector<int>> image = {
+        {1, 1, 1},
+        {1, 1, 0},
+        {1, 0, 1}
+    };
+
+    int sr = 1, sc = 1, newColor = 2;
+    vector<vector<int>> result = floodFill(image, sr, sc, newColor);
+
+    for (const auto& row : result) {
+        for (int pixel : row) {
+            cout << pixel << " ";
+        }
+        cout << endl;
+    }
+
+}
+
