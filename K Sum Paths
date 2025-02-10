@@ -1,0 +1,31 @@
+class Solution {
+  public:
+    int countPaths(Node* root, int k, unordered_map<int, int>& prefixSum, int currSum) {
+        if (!root) return 0;
+
+        // Update current sum
+        currSum += root->data;
+
+        // Check if there's a prefix sum that leads to sum K
+        int paths = prefixSum[currSum - k];
+
+        // Add current sum to the prefix map
+        prefixSum[currSum]++;
+
+        // Recur for left and right subtrees
+        paths += countPaths(root->left, k, prefixSum, currSum);
+        paths += countPaths(root->right, k, prefixSum, currSum);
+
+        // Backtrack (remove current sum from prefix map)
+        prefixSum[currSum]--;
+
+        return paths;
+    }
+
+    int sumK(Node* root, int k) {
+        unordered_map<int, int> prefixSum;
+        prefixSum[0] = 1; // Handle case where sum itself is k
+        return countPaths(root, k, prefixSum, 0);
+        // code here
+    }
+};
